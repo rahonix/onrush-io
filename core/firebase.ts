@@ -1,5 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { doc } from "firebase/firestore";
+import { getDatabase, ref, child, get } from "firebase/database";
 
 // TODO: Add SDKs for Firebase products that you want to use
 
@@ -12,5 +14,13 @@ import { initializeApp } from "firebase/app";
 
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export default app
+
+export const getUserDocument = async (uuid: string) => {
+    let app = initializeApp(firebaseConfig);
+    let dbRef = ref(getDatabase(app));
+    const snapshot = await get(child(dbRef, `data/${uuid}`))
+    if (snapshot.exists()) {
+        return snapshot
+    } 
+    return new Error("Document does not exist")
+} 
