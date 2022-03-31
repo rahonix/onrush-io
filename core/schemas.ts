@@ -8,18 +8,20 @@ const entityId = z
     .string()
     .length(20)
 
-const number = z.number()
-
+const name = z.string().max(16)
+const max = z.number().positive().min(1)
+const current = z.number().positive().min(0)
 
 const postSchema = z.object({
     uuid: uuid,
-    max: number
+    name: name,
+    max: max
 })
 
 const putSchema = z.object({
     uuid: uuid,
     entityId: entityId,
-    current: number 
+    current: current 
 })
 
 export {
